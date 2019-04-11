@@ -262,7 +262,7 @@
 					<h2>Manipulación de imágenes</h2>
 					<ul>
 						<li>ImageOptim, XNConvert, The GIMP, imagemagick, svgo...</li>
-						<li>Automatizar (Gulp/gulp-imagemin, Grunt, Webpack o simplemente scripts)</li>
+						<li>Automatizar con Gulp, Grunt, Webpack o simplemente scripts</li>
 						<li>Eliminar metadatos</li>
 						<li>Guardar con entrelazado</li>
 					</ul>
@@ -285,7 +285,6 @@
 							});
 						</code>
 					</pre>
-					<!-- codigo automartizar con gulp -->
 				</section>
 
 				<section>
@@ -316,7 +315,7 @@
 				<section>
 					<h2>Minificar</h2>
 					<ul>
-						<li>Eliminar espacios, intros, reducir nombres de variables, etc. (UglifyJS)</li>
+						<li>Eliminar espacios, intros, reducir nombres de variables, etc. (Ej. UglifyJS)</li>
 						<li>El tooling propio de cada framework suele automatizar esto para diferentes entornos</li>
 						<li>También se pueden usar CDNs para código de terceros</li>
 					</ul>
@@ -325,7 +324,7 @@
 				<section>
 					<h2>Source maps</h2>
 					<ul>
-						<li>Es un mapeo del código minificado para poder reconstruirlo en el navegador y así poder debuggear</li>
+						<li>Es un mapeo del código minificado para poder reconstruirlo en el navegador</li>
 						<li>Se enlaza desde el fichero minificado y se carga únicamente cuando accedemos al código con las Dev Tools</li>
 					</ul>
 					<pre>
@@ -338,9 +337,9 @@
 				<section>
 					<h2>Concatenar</h2>
 					<ul>
-						<li>Juntar todos los archivos JS y CSS en uno solo para reducir las peticiones HTTP</li>
+						<li>Juntar todos los archivos JS/CSS en uno solo de cada para reducir las peticiones HTTP</li>
 						<li>Pero a veces nos interesa más dividirlos e irlos cargando según se necesiten al navegar</li>
-						<li>Si estamos en un framework podemos usar dynamic imports → Lazy-load router</li>
+						<li>Si estamos en un framework podemos usar dynamic imports → <strong>Lazy-load router</strong></li>
 					</ul>
 				</section>
 
@@ -517,7 +516,7 @@
 				</section>
 
 				<section>
-					<h2>Conclusiones</h2>
+					<h2>Ideas</h2>
 					<p>Elaborar un presupuesto realista de assets y cumplirlo</p>
 					<p>La petición más rapida es la que no se hace</p>
 					<p>El byte "menos pesado" es el que no se transmite</p>
@@ -528,10 +527,10 @@
 				<section>
 					<h2>Recursos</h2>
 					<p><a href="https://twitter.com/PerfReviews_">→ @PerfReviews_ en Twitter</a></p>
-					<!-- enlace al repo optimizar frontend -->
+					<p><a href="https://github.com/luisddm/frontend-automation">→ Automatización de tareas con Gulp, Grunt y npm scripts</a></p>
 				</section>
 
-				<section data-background="#60B0F4">
+				<section>
 					<h2>¡Gracias!</h2>
 					<h2>¿Alguna pregunta?</h2>
 					<br>
