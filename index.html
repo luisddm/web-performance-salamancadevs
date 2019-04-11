@@ -1,0 +1,568 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Rendimiento en frontend - Salamanca Devs</title>
+
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-background="#60B0F4">
+					<h2>Rendimiento en frontend</h2>
+					<img style="background: #fff; padding: 20px; height: 120px" src="images/salamancadevs.jpg">
+					<pre><code class="hljs html" style="font-size: 28px; padding: 20px; text-align: center; word-wrap: break-word;">luisddm.github.io/web-performance-salamancadevs</code></pre>
+					<h4>Luis de Dios<h4>
+				</section>
+				
+				<section data-background="#60B0F4">
+					<h2>Presentación</h2>
+				</section>
+
+				<section>
+					<h2>Quién soy</h2>
+					<ul>
+						<li>Ingeniero de Teleco</li>
+						<li>Últimos cuatro años especializado en frontend</li>
+						<li>Ahora dedicado a backend y sistemas en Alea Soluciones</li>
+						<li>Coorganizador de FrontFest</li>
+						<li>Aficionado a la seguridad y la electrónica</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Disclaimer</h2>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>Motivación</h2>
+				</section>
+
+				<section>
+					<h2>Tenemos un problema con la web</h2>
+					<p>Tamaño, lentitud, complejidad → falta de usabilidad</p>
+					<p>No se pensó para su uso actual</p>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>Análisis</h2>
+				</section>
+
+				<section>
+					<h2>Cómo hemos cambiado</h2>
+					<ul>
+						<li>De simple texto con hipervínculos a grandes aplicaciones interactivas con imágenes, videos, etc.</li>
+						<li>De compartir conocimiento a negocio</li>
+						<li>De unos pocos "frikis" al público en general</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Evolución del peso de la web</h2>
+					<img src="images/web-size-evolution.png">
+					<p><a href="https://httparchive.org/reports/state-of-the-web">→ HTTP Archive: State of the Web</a></p>
+				</section>
+
+				<section>
+					<h2>Caso de estudio: USA Today</h2>
+					<ul>
+						<li>Edición USA vs edición UE (post RGPD)</li>
+						<li>Usando las pestaña Network de las Dev Tools</li>
+						<ul>
+							<li>Analizar número de peticiones y tamaño tx</li>
+							<li>Forzar el <span style="font-style: italic">throttling</span></li>
+						</ul>
+					</ul>
+					<img src="images/devtools.png">
+				</section>
+
+				<section>
+					<img style="height: 420px" src="images/usatoday-euro.png">
+					<img style="height: 420px" src="images/usatoday-usa.png">
+				</section>
+
+				<section>
+					<h2>Resultados</h2>
+					<ul>
+						<li><strong>Edición Europa:</strong> 34 requests / 540 kB</li>
+						<li><strong>Edición USA:</strong> ~400 requests / ~10 MB</li>
+					</ul>
+					<p><a href="https://usatoday.com">→ USA Today</a></p>
+					<p><a href="https://twitter.com/paulcalvano/status/1000094333524201473?lang=es">→ Twit de @paulcalvano</a></p>
+				</section>
+
+				<section>
+					<h2>Otros casos de estudio</h2>
+					<table>
+						<tr>
+							<th>Sitio web</th>
+							<th>Tx / Total</th>
+							<th>Req.</th>
+						</tr>
+						<tr>
+							<td>Marca</td>
+							<td>5,6 / 13,8 MB</td>
+							<td>~600</td>
+						</tr>
+						<tr>
+							<td>El País</td>
+							<td>6,1 / 17,6 MB</td>
+							<td>~450</td>
+						</tr>
+						<tr>
+							<td>Tumblr</td>
+							<td>3,6 / 6,2 MB</td>
+							<td>~75</td>
+						</tr>
+						<tr>
+							<td>Medium</td>
+							<td>1,4 / 3,3 MB</td>
+							<td>~50</td>
+						</tr>
+					</table>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>¿A quién perjudica esto?</h2>
+				</section>
+
+				<section>
+					<h2>Sesgo del desarrollador (y de negocio)</h2>
+					<p>La mayoría de los que nos dedicamos a esto tenemos buen hardware y buenas conexiones, pero el "mundo real" es diferente</p>
+				</section>
+
+				<section>
+					<h2>Ámbito geográfico</h2>
+					<p>Algunas de las webs que hacemos las utiliza gente que vive en entornos muy diferentes</p>
+					<p><a href="http://www.movistar.es/particulares/coberturas/movil/4G/">→ Mapa cobertura Movistar 4G</a></p>
+					<p><a href="https://elpais.com/tecnologia/2019/04/02/actualidad/1554202078_983656.html">→ Muchas zonas de Europa aún carecen de conexión de calidad a Internet (El País)</a></p>
+				</section>
+
+				<section>
+					<h2>Dispositivos heterogéneos</h2>
+					<p>Existe una enorme variedad de dispositivos para acceder a la web, que cuestan desde pocas decenas a miles de euros</p>
+				</section>
+
+				<section>
+					<h2>Consumo de datos</h2>
+					<p>¿Cuántas webs podemos ver con un giga de datos?</p>
+				</section>
+
+				<section>
+					<h2>Bajo "engagement"</h2>
+					<p>Cuando una web tarda demasiados segundos en cargar, la abandonamos</p>
+				</section>
+
+				<section>
+					<h2>Accesibilidad</h2>
+					<p>El mal rendimiento implica exclusión de algunos segmentos de población</p>
+				</section>
+
+				<section>
+					<h2>Privacidad</h2>
+					<p>Enorme cantidad de trackers que envían datos personales permanentemente a grandes empresas de internet, incluso sin estar logueados</p>
+					<p>También impacta en el rendimiento, puede haber scripts bloqueantes</p>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>Conceptos</h2>
+				</section>
+
+				<section>
+					<h2>Progressive enhancement</h2>
+					<ul>
+						<li>Implica una forma integral de pensar y desarrollar, afecta a todo el pipeline</li>
+						<li>Primero el contenido fundamental, y las mejoras se activan en función de las capacidades del hardware</li>
+						<li>Que TODOS los usuarios tengan una experiencia mínima, que no sea todo o nada</li>
+					</ul>
+					<p><a href="https://medium.com/@addyosmani/the-cost-of-javascript-in-2018-7d8950fbb5d4">→ The cost of Javascript (Addy Osmani)</a></p>
+				</section>
+
+				<section>
+					<img src="images/progressive-rendering.png">
+				</section>
+
+				<section>
+					<h2>First meaningful paint</h2>
+					<p>Que nos "aporte algo" lo más rápidamente posible</p>
+				</section>
+
+				<section data-background="images/web-loading.png">
+				</section>
+
+				<section>
+					<h2>Principio de Pareto</h2>
+					<p>También conocido como regla del 80/20</p>
+					<p>Disponemos de tiempo y presupestos limitados, así que hay que priorizar las optimizaciones</p>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>Soluciones</h2>
+				</section>
+
+				<section>
+					<h2>Imágenes</h2>
+					<ul>
+						<li>En cuanto a tamaño, son lo más costoso</li>
+						<li>Identificar cuándo usar JPG, PNG, WebP, SVG...</li>
+						<li>Balance adecuado entre calidad, tamaño y dimensiones</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Cargar sólo imágenes necesarias</h2>
+					<p><strong>Lazy loading</strong> → scroll vertical o sliders</p>
+					<p>Usar diferentes tamaños o resoluciones de imágenes para diferentes media queries</p>
+					<p><a href="https://www.sitepoint.com/how-to-build-responsive-images-with-srcset/">→ How to Build Responsive Images with srcset (Sitepoint)</a></p>
+				</section>
+
+				<section>
+					<h2>CSS vs HTML</h2>
+					<pre>
+						<code class="css" data-trim>
+							.image {
+							  background-image: url(pic.jpg)
+							}
+							@media (min-width: 800px) {
+							  .image {
+							    background-image: url(pic-2x.jpg)
+							  }
+							}
+						</code>
+					</pre>
+					<pre>
+						<code class="html" data-trim>
+						<picture>
+						  <source srcset="pic-2x.jpg" media="(min-width: 800px)">
+						  <img src="pic.jpg" />
+						</picture>
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h2>Manipulación de imágenes</h2>
+					<ul>
+						<li>ImageOptim, XNConvert, The GIMP, imagemagick, svgo...</li>
+						<li>Automatizar (Gulp/gulp-imagemin, Grunt, Webpack o simplemente scripts)</li>
+						<li>Eliminar metadatos</li>
+						<li>Guardar con entrelazado</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Automatización</h2>
+					<p>Ejemplo con Gulp</p>
+					<pre>
+						<code class="hljs" data-trim>
+							gulp.task('images', function() {
+							  return gulp.src('pic.jpg')
+							    .pipe(imageResize({ width: 800 }))
+							    .pipe(imagemin({ progressive: true }))
+							    .pipe(gulp.dest('./dist/img'))
+							    .pipe(rename({ suffix: '@2x' }))
+							    .pipe(imageResize({ width: 400 }))
+							    .pipe(imagemin({ progressive: true }))
+							    .pipe(gulp.dest('./dist/img'))
+							});
+						</code>
+					</pre>
+					<!-- codigo automartizar con gulp -->
+				</section>
+
+				<section>
+					<h2>Lo mismo con los vídeos</h2>
+					<ul>
+						<li>Elegir el formato adecuado (WebM, MP4, OGG...) pero cuidado con la compatibilidad</li>
+						<li>¡No GIFs animados! Usar vídeo en su lugar</li>
+						<li>¡No autoplay! Que decida el usuario</li>
+						<li>Cuidado con incrustar vídeos de YouTube</li>
+					</ul>
+					<p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video">→ El Elemento Video en MDN</a></p>
+				</section>
+
+				<section>
+					<h2>Conversión de vídeos</h2>
+					<p>Ejemplo: de GIF a MP4</p>
+					<pre>
+						<code class="html" data-trim>
+							$ ffmpeg -i anim.gif -b:v 0 -crf 40 -vf scale=600:-1 video.mp4
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<img src="images/twitter.jpg">
+				</section>
+
+				<section>
+					<h2>Minificar</h2>
+					<ul>
+						<li>Eliminar espacios, intros, reducir nombres de variables, etc. (UglifyJS)</li>
+						<li>El tooling propio de cada framework suele automatizar esto para diferentes entornos</li>
+						<li>También se pueden usar CDNs para código de terceros</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Source maps</h2>
+					<ul>
+						<li>Es un mapeo del código minificado para poder reconstruirlo en el navegador y así poder debuggear</li>
+						<li>Se enlaza desde el fichero minificado y se carga únicamente cuando accedemos al código con las Dev Tools</li>
+					</ul>
+					<pre>
+						<code class="html" data-trim>
+							//# sourceMappingURL=main.js.map
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h2>Concatenar</h2>
+					<ul>
+						<li>Juntar todos los archivos JS y CSS en uno solo para reducir las peticiones HTTP</li>
+						<li>Pero a veces nos interesa más dividirlos e irlos cargando según se necesiten al navegar</li>
+						<li>Si estamos en un framework podemos usar dynamic imports → Lazy-load router</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Dynamic import</h2>
+					<p>Ejemplo: router de Vue.js</p>
+					<pre>
+						<code class="hljs javascript" data-trim>
+							export default new Router({
+							  routes: [
+							    {
+							      path: '/',
+							      name: 'home',
+							      component: Home
+							    },
+							    {
+							      path: '/about',
+							      name: 'about',
+							      component: () => import('./views/About.vue')
+							    }
+							  ]
+							})
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h2>Eliminar código muerto</h2>
+					<ul>
+						<li>Tree-shaking con los módulos de Javascript (Webpack 4)</li>
+						<ul>
+							<li>Comprobar con tests unitarios, funcionales y E2E</li>
+						</ul>
+						<li>Eliminar CSS sin usar</li>
+						<ul>
+							<li>Comprobar con tests visuales (ej Chromatic)</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Tipografías</h2>
+					<ul>
+						<li>Usar formatos más ligeros (woff2), pero sin romper compatiblidad</li>
+						<li>Usar <code>font-display: swap</code> para que el texto sea visible con una fuente de fallback mientras se carga la nuestra</li>
+						<li>Usar SVGs en lugar de fuentes de iconos</li>
+					</ul>
+					<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face">→ La regla @font-face de CSS</a></p>
+				</section>
+
+				<section>
+					<h2>La regla @font-face</h2>
+					<pre>
+						<code class="hljs css" data-trim>
+							@font-face {
+							  font-family: "Open Sans";
+							  src: url("/fonts/OpenSans-Regular.woff2") format("woff2"),
+						        url("/fonts/OpenSans-Regular.ttf") format("ttf");
+							  font-weight: 400;
+							  font-display: swap;
+							}
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h2>Cacheado eficiente</h2>
+					<ul>
+						<li>Usar HTTP ETag para establecer adecuadamente los tiempos de vida</li>
+						<li>Un ETag es un checksum para comprobar si un recurso ha cambiado</li>
+						<li>Con las cabeceras Cache-Control y Expire podemos establecer el TTL</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Compresión</h2>
+					<p>El navegador y el servidor negocian la compresión</p>
+					<ul>
+						<li>Request</li>
+						<pre>
+							<code class="html" data-trim>
+								GET /route HTTP/1.1
+								HOST example.com
+								Accept-Encoding: gzip, deflate
+							</code>
+						</pre>
+						<li>Response</li>
+						<pre>
+							<code class="html" data-trim>
+								HTTP/1.1 200 OK
+								Content-Encoding: gzip
+							</code>
+						</pre>
+					</ul>
+				</section>
+
+				<section>
+					<h2>APIs experimentales</h2>
+					<p>Ejemplo, sólo funciona en Chrome</p>
+					<pre>
+						<code class="hljs" data-trim>
+							networkInformation = navigator.connection   // '4g'
+						</code>
+					</pre>
+					<p>Útil sobre todo en móviles</p>
+					<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/connection">→ navigator.connection en MDN</a></p>
+				</section>
+
+				<section>
+					<h2>Otros detalles</h2>
+					<ul>
+						<li>Normalmente colocar scripts al final del <code>&lt;body&gt;</code> para no bloquear el renderizado HTML y CSS</li>
+						<li>Evitar redirecciones</li>
+						<li>Evitar demasiados nodos HTML</li>
+						<li>Marcar scripts no críticos con defer</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>HTTP/2</h2>
+					<ul>
+						<li>Ha de estar soportado tanto por el servidor como por el navegador</li>
+						<li>Modifica algunas técnicas vistas previamente</li>
+					</ul>
+					<p><a href="https://developers.google.com/web/fundamentals/performance/http2/">→ Introducción a HTTP/2</a></p>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>Herramientas de análisis</h2>
+				</section>
+
+				<section>
+					<h2>import-cost</h2>
+					<p>Extensión para VSCode que muestra el tamaño al lado de cada import o require</p>
+					<pre>
+						<code class="hljs javascript" data-trim>
+					    const {uniqueId} = require('lodash') // 70KB
+					    const uniqueId = require('lodash/uniqueId') // 2KB
+						</code>
+					</pre>
+				</section>
+
+				<section>
+					<h2>Webpack Bundle Analyser</h2>
+					<img src="images/webpack-bundle.png">
+				</section>
+
+				<section>
+					<h2>BundlePhobia</h2>
+					<img src="images/bundlephobia.png">
+				</section>
+
+				<section>
+					<h2>Lighthouse</h2>
+					<img style="height: 550px" src="images/lighthouse.png">
+				</section>
+
+				<section>
+					<h2>GTmetrix</h2>
+					<img style="height: 550px" src="images/gtmetrix.png">
+				</section>
+
+				<section>
+					<h2>Enlaces</h2>
+					<p><a href="https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost">→ Import Cost en Visual Studio Marketplace</a></p>
+					<p><a href="https://github.com/webpack-contrib/webpack-bundle-analyzer">→ Webpack Bundle Analysis</a></p>
+					<p><a href="https://bundlephobia.com">→ BundlePhobia</a></p>
+					<p><a href="https://developers.google.com/web/tools/lighthouse/">→ Lighthouse</a></p>
+					<p><a href="https://gtmetrix.com/">→ GTmetrix</a></p>
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>Conclusiones</h2>
+				</section>
+
+				<section>
+					<h2>Conclusiones</h2>
+					<p>Elaborar un presupuesto realista de assets y cumplirlo</p>
+					<p>La petición más rapida es la que no se hace</p>
+					<p>El byte "menos pesado" es el que no se transmite</p>
+					<p>¡Minimizar el resto!</p>
+					<p>Establecer prioridades y buscar la simplicidad</p>
+				</section>
+
+				<section>
+					<h2>Recursos</h2>
+					<p><a href="https://twitter.com/PerfReviews_">→ @PerfReviews_ en Twitter</a></p>
+					<!-- enlace al repo optimizar frontend -->
+				</section>
+
+				<section data-background="#60B0F4">
+					<h2>¡Gracias!</h2>
+					<h2>¿Alguna pregunta?</h2>
+					<br>
+					<ul>
+						<li><a href="https://twitter.com/@luisddm_"><strong>Twitter: </strong></a>@luisddm_</li>
+						<li><a href="https://mastodon.technology/@luisddm"><strong>Mastodon: </strong></a>mastodon.technology/@luisddm</li>
+						<li><a href="https://medium.com/@luisddm"><strong>Medium: </strong></a>medium.com/@luisddm</li>
+						<li><a href="https://github.com/luisddm"><strong>Github: </strong></a>github.com/luisddm</li>
+					</ul>
+				</section>
+
+			</div>
+		</div>
+
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				hash: true,
+
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/highlight/highlight.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
